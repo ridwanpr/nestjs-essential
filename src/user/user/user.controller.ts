@@ -7,6 +7,8 @@ import {
   Post,
   Query,
   Redirect,
+  Req,
+  Res,
 } from '@nestjs/common';
 import type { HttpRedirectResponse } from '@nestjs/common';
 import type { Request, Response } from 'express';
@@ -18,6 +20,20 @@ export class UserController {
   //   sampleResponse(@Res() response: Response) {
   //     response.status(200).json({ message: 'Sample Response' });
   //   }
+
+  //   pengecualian seperti untuk cookie dimana perlu response dari express
+  @Get('/set-cookie')
+  setCookie(@Query('name') name: string, @Res() response: Response) {
+    response.cookie('name', name);
+    response.status(200).send(`Set Cookie Success: ${name}`);
+  }
+
+  @Get('/get-cookie')
+  getCookie(@Req() request: Request) {
+    const name = request.cookies.name as string;
+    if (!name) return 'Cookie not set';
+    return `Cookie: ${name}`;
+  }
 
   // gunakan Decorator nest
   @Get('/sample-response')
