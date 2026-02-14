@@ -82,4 +82,13 @@ export class UserController {
   ): string {
     return `Hello ${firstname} ${lastname}`;
   }
+
+  // render mustache view
+  @Get('/view/hello')
+  viewHello(@Query('name') name: string, @Res() res: Response) {
+    res.render('index.html', {
+      title: 'Template Engine',
+      name: name,
+    });
+  }
 }
