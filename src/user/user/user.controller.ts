@@ -15,6 +15,7 @@ import type { Request, Response } from 'express';
 import { UserService } from './user.service';
 import { Connection } from '../connection/connection';
 import { MailService } from '../mail/mail.service';
+import { UserRepository } from '../user-repository/user-repository';
 
 @Controller('/api/users')
 export class UserController {
@@ -22,6 +23,7 @@ export class UserController {
     private userService: UserService,
     private connection: Connection,
     private mailService: MailService,
+    private userRepo: UserRepository,
   ) {}
 
   // gunakan Decorator Nest seperti @Query, @Param dsb
@@ -33,6 +35,7 @@ export class UserController {
 
   @Get('/connection')
   getConnection(): string {
+    this.userRepo.save();
     this.mailService.send();
     return this.connection.getName();
   }
