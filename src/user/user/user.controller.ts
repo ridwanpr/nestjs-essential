@@ -13,16 +13,25 @@ import {
 import type { HttpRedirectResponse } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { UserService } from './user.service';
+import { Connection } from '../connection/connection';
 
 @Controller('/api/users')
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private connection: Connection,
+  ) {}
 
   // gunakan Decorator Nest seperti @Query, @Param dsb
   // decorator dapat lebih dari satu
   @Get('/user/hello')
   sayHello(@Query('name') name: string): string {
     return this.userService.sayHello(name);
+  }
+
+  @Get('/connection')
+  getConnection(): string {
+    return this.connection.getName();
   }
 
   // tidak direkomendasikan menggunakan Response express

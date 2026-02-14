@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 export class Connection {
   getName(): string {
-    return 'name';
+    return 'connection';
   }
 }
 
