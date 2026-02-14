@@ -12,9 +12,19 @@ import {
 } from '@nestjs/common';
 import type { HttpRedirectResponse } from '@nestjs/common';
 import type { Request, Response } from 'express';
+import { UserService } from './user.service';
 
 @Controller('/api/users')
 export class UserController {
+  constructor(private userService: UserService) {}
+
+  // gunakan Decorator Nest seperti @Query, @Param dsb
+  // decorator dapat lebih dari satu
+  @Get('/user/hello')
+  sayHello(@Query('name') name: string): string {
+    return this.userService.sayHello(name);
+  }
+
   // tidak direkomendasikan menggunakan Response express
   //   @Get('/sample-response')
   //   sampleResponse(@Res() response: Response) {
@@ -71,16 +81,6 @@ export class UserController {
   //   }
   show(@Param('id') id: string): string {
     return `Get ${id}`;
-  }
-
-  // gunakan Decorator Nest seperti @Query, @Param dsb
-  // decorator dapat lebih dari satu
-  @Get('/user/hello')
-  sayHello(
-    @Query('firstname') firstname: string,
-    @Query('lastname') lastname: string,
-  ): string {
-    return `Hello ${firstname} ${lastname}`;
   }
 
   // render mustache view
