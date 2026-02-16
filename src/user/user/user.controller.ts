@@ -13,11 +13,11 @@ import {
 } from '@nestjs/common';
 import type { HttpRedirectResponse } from '@nestjs/common';
 import type { Request, Response } from 'express';
-import { UserService } from './user.service';
-import { Connection } from '../connection/connection';
-import { MailService } from '../mail/mail.service';
-import { UserRepository } from '../user-repository/user-repository';
-import { MemberService } from '../member/member.service';
+import { UserService } from './user.service.js';
+import { Connection } from '../connection/connection.js';
+import { MailService } from '../mail/mail.service.js';
+import { UserRepository } from '../user-repository/user-repository.js';
+import { MemberService } from '../member/member.service.js';
 
 @Controller('/api/users')
 export class UserController {
@@ -39,13 +39,25 @@ export class UserController {
 
   @Get('/connection')
   getConnection(): string {
-    this.userRepo.save();
     this.mailService.send();
     this.emailService.send();
 
     console.info(this.memberService.getConnectionName());
     this.memberService.sendEmail();
     return this.connection.getName();
+  }
+
+  @Get('/create')
+  async create(
+    @Query('firstname') firstname: string,
+    @Query('lastname') lastname: string,
+  ): Promise<{ id: number; first_name: string; last_name: string | null }> {
+    const user = await this.userRepo.save(firstname, lastname);
+    return {
+      id: Number(user.id),
+      first_name: user.first_name,
+      last_name: user.last_name,
+    };
   }
 
   // tidak direkomendasikan menggunakan Response express

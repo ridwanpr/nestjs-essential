@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
-import { Connection } from '../connection/connection';
-import { MailService } from '../mail/mail.service';
+import { Connection } from '../connection/connection.js';
+import { MailService } from '../mail/mail.service.js';
 
 @Injectable()
 export class MemberService {

@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { Connection } from './connection';
+import { Connection } from './connection.js';
 
 describe('Connection', () => {
   let provider: Connection;

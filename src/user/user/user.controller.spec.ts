@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserController } from './user.controller';
+import { UserController } from './user.controller.js';
 import httpMocks from 'node-mocks-http';
-import { UserService } from './user.service';
+import { UserService } from './user.service.js';
 
 describe('UserController', () => {
   let controller: UserController;
