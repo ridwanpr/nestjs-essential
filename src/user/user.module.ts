@@ -6,10 +6,9 @@ import { mailService, MailService } from './mail/mail.service.js';
 import { UserRepository } from './user-repository/user-repository.js';
 import { MemberService } from './member/member.service.js';
 import { ConfigService } from '@nestjs/config';
-import { PrismaModule } from '../prisma/prisma.module.js';
 
 @Module({
-  imports: [PrismaModule],
+  imports: [],
   controllers: [UserController],
   providers: [
     UserService,
