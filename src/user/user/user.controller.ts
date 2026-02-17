@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   Header,
@@ -6,11 +7,13 @@ import {
   HttpException,
   Inject,
   Param,
+  ParseIntPipe,
   Post,
   Query,
   Redirect,
   Req,
   Res,
+  UseFilters,
   // UseFilters,
 } from '@nestjs/common';
 import type { HttpRedirectResponse } from '@nestjs/common';
@@ -20,6 +23,12 @@ import { Connection } from '../connection/connection.js';
 import { MailService } from '../mail/mail.service.js';
 import { UserRepository } from '../user-repository/user-repository.js';
 import { MemberService } from '../member/member.service.js';
+import { ValidationFilter } from '../../validation/validation.filter.js';
+import {
+  LoginUserRequest,
+  loginUserRequestValidation,
+} from '../../model/login.model.js';
+import { ValidationPipe } from '../../validation/validation.pipe.js';
 // import { ValidationFilter } from '../../validation/validation.filter.js';
 
 @Controller('/api/users')
@@ -32,6 +41,15 @@ export class UserController {
     private userRepo: UserRepository,
     private memberService: MemberService,
   ) {}
+
+  @UseFilters(ValidationFilter)
+  @Post('/login')
+  login(
+    @Body(new ValidationPipe(loginUserRequestValidation))
+    request: LoginUserRequest,
+  ) {
+    return `Hello ${request.username}`;
+  }
 
   // gunakan Decorator Nest seperti @Query, @Param dsb
   // decorator dapat lebih dari satu
@@ -128,8 +146,10 @@ export class UserController {
   //   show(@Req() request: Request<{ id: string }>): string {
   //     return `Get ${request.params.id}`;
   //   }
-  show(@Param('id') id: string): string {
-    return `Get ${id}`;
+  // PIPE
+  show(@Param('id', ParseIntPipe) id: number): string {
+    const result = id * 10;
+    return `${id} * 10 = ${result}`;
   }
 
   // render mustache view
