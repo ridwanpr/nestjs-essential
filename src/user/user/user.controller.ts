@@ -13,7 +13,6 @@ import {
   Redirect,
   Req,
   Res,
-  UseFilters,
   // UseFilters,
 } from '@nestjs/common';
 import type { HttpRedirectResponse } from '@nestjs/common';
@@ -23,7 +22,7 @@ import { Connection } from '../connection/connection.js';
 import { MailService } from '../mail/mail.service.js';
 import { UserRepository } from '../user-repository/user-repository.js';
 import { MemberService } from '../member/member.service.js';
-import { ValidationFilter } from '../../validation/validation.filter.js';
+// import { ValidationFilter } from '../../validation/validation.filter.js';
 import type { LoginUserRequest } from '../../model/login.model.js';
 import { loginUserRequestSchema } from '../../model/login.model.js';
 import { ValidationPipe } from '../../validation/validation.pipe.js';
@@ -40,7 +39,7 @@ export class UserController {
     private memberService: MemberService,
   ) {}
 
-  @UseFilters(ValidationFilter)
+  // @UseFilters(ValidationFilter)
   @Post('/login')
   login(
     @Body(new ValidationPipe(loginUserRequestSchema)) request: LoginUserRequest,
