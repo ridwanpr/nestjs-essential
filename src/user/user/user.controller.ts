@@ -10,6 +10,7 @@ import {
   Redirect,
   Req,
   Res,
+  UseFilters,
 } from '@nestjs/common';
 import type { HttpRedirectResponse } from '@nestjs/common';
 import type { Request, Response } from 'express';
@@ -18,6 +19,7 @@ import { Connection } from '../connection/connection.js';
 import { MailService } from '../mail/mail.service.js';
 import { UserRepository } from '../user-repository/user-repository.js';
 import { MemberService } from '../member/member.service.js';
+import { ValidationFilter } from '../../validation/validation.filter.js';
 
 @Controller('/api/users')
 export class UserController {
@@ -33,6 +35,7 @@ export class UserController {
   // gunakan Decorator Nest seperti @Query, @Param dsb
   // decorator dapat lebih dari satu
   @Get('/user/hello')
+  @UseFilters(ValidationFilter)
   sayHello(@Query('name') name: string): string {
     return this.userService.sayHello(name);
   }
