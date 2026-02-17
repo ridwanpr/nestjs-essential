@@ -3,6 +3,7 @@ import {
   Get,
   Header,
   HttpCode,
+  HttpException,
   Inject,
   Param,
   Post,
@@ -55,6 +56,16 @@ export class UserController {
     @Query('firstname') firstname: string,
     @Query('lastname') lastname: string,
   ): Promise<{ id: number; first_name: string; last_name: string | null }> {
+    if (!firstname) {
+      throw new HttpException(
+        {
+          code: 400,
+          errors: 'firstname is required',
+        },
+        400,
+      );
+    }
+
     const user = await this.userRepo.save(firstname, lastname);
     return {
       id: Number(user.id),
