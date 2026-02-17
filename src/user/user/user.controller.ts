@@ -24,10 +24,8 @@ import { MailService } from '../mail/mail.service.js';
 import { UserRepository } from '../user-repository/user-repository.js';
 import { MemberService } from '../member/member.service.js';
 import { ValidationFilter } from '../../validation/validation.filter.js';
-import {
-  LoginUserRequest,
-  loginUserRequestValidation,
-} from '../../model/login.model.js';
+import type { LoginUserRequest } from '../../model/login.model.js';
+import { loginUserRequestSchema } from '../../model/login.model.js';
 import { ValidationPipe } from '../../validation/validation.pipe.js';
 // import { ValidationFilter } from '../../validation/validation.filter.js';
 
@@ -45,8 +43,7 @@ export class UserController {
   @UseFilters(ValidationFilter)
   @Post('/login')
   login(
-    @Body(new ValidationPipe(loginUserRequestValidation))
-    request: LoginUserRequest,
+    @Body(new ValidationPipe(loginUserRequestSchema)) request: LoginUserRequest,
   ) {
     return `Hello ${request.username}`;
   }

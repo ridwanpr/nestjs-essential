@@ -1,11 +1,8 @@
 import z from 'zod';
 
-export class LoginUserRequest {
-  username: string;
-  password: string;
-}
-
-export const loginUserRequestValidation = z.object({
+export const loginUserRequestSchema = z.object({
   username: z.string().max(50).min(3),
   password: z.string().max(50).min(3),
 });
+
+export type LoginUserRequest = z.infer<typeof loginUserRequestSchema>;
