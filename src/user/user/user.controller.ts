@@ -28,6 +28,8 @@ import type { LoginUserRequest } from '../../model/login.model.js';
 import { loginUserRequestSchema } from '../../model/login.model.js';
 import { ValidationPipe } from '../../validation/validation.pipe.js';
 import { TimeInterceptor } from '../../time/time.interceptor.js';
+import { Auth } from '../../auth/auth.decorator.js';
+import type { User } from '../../generated/prisma/client.js';
 // import { ValidationFilter } from '../../validation/validation.filter.js';
 
 @Controller('/api/users')
@@ -40,6 +42,13 @@ export class UserController {
     private userRepo: UserRepository,
     private memberService: MemberService,
   ) {}
+
+  @Get('/current')
+  current(@Auth() user: User): Record<string, any> {
+    return {
+      data: `Hello ${user.first_name} ${user.last_name}`,
+    };
+  }
 
   // @UseFilters(ValidationFilter)
   @Post('/login')
