@@ -13,6 +13,7 @@ import {
   Redirect,
   Req,
   Res,
+  UseInterceptors,
   // UseFilters,
 } from '@nestjs/common';
 import type { HttpRedirectResponse } from '@nestjs/common';
@@ -26,6 +27,7 @@ import { MemberService } from '../member/member.service.js';
 import type { LoginUserRequest } from '../../model/login.model.js';
 import { loginUserRequestSchema } from '../../model/login.model.js';
 import { ValidationPipe } from '../../validation/validation.pipe.js';
+import { TimeInterceptor } from '../../time/time.interceptor.js';
 // import { ValidationFilter } from '../../validation/validation.filter.js';
 
 @Controller('/api/users')
@@ -41,10 +43,14 @@ export class UserController {
 
   // @UseFilters(ValidationFilter)
   @Post('/login')
+  @Header('Content-type', 'application/json')
+  @UseInterceptors(TimeInterceptor)
   login(
     @Body(new ValidationPipe(loginUserRequestSchema)) request: LoginUserRequest,
   ) {
-    return `Hello ${request.username}`;
+    return {
+      data: `Hello ${request.username}`,
+    };
   }
 
   // gunakan Decorator Nest seperti @Query, @Param dsb

@@ -20,6 +20,7 @@ async function bootstrap() {
   app.engine('html', mustacheExpress());
 
   app.useGlobalFilters(new ValidationFilter());
+  // app.useGlobalInterceptors(interceptor);
 
   const configService = app.get(ConfigService);
 
