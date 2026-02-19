@@ -13,7 +13,7 @@ import {
   Redirect,
   Req,
   Res,
-  UseGuards,
+  // UseGuards,
   UseInterceptors,
   // UseFilters,
 } from '@nestjs/common';
@@ -31,7 +31,7 @@ import { ValidationPipe } from '../../validation/validation.pipe.js';
 import { TimeInterceptor } from '../../time/time.interceptor.js';
 import { Auth } from '../../auth/auth.decorator.js';
 import type { User } from '../../generated/prisma/client.js';
-import { RoleGuard } from '../../role/role.guard.js';
+// import { RoleGuard } from '../../role/role.guard.js';
 import { Roles } from '../../role/role.decorator.js';
 // import { ValidationFilter } from '../../validation/validation.filter.js';
 
@@ -47,7 +47,7 @@ export class UserController {
   ) {}
 
   @Get('/current')
-  @UseGuards(RoleGuard)
+  // @UseGuards(RoleGuard)
   @Roles(['admin', 'operator'])
   current(@Auth() user: User): Record<string, any> {
     return {

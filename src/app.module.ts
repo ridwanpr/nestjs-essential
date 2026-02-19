@@ -14,6 +14,8 @@ import { ValidationModule } from './validation/validation.module.js';
 import * as winston from 'winston';
 import { LogMiddleware } from './log/log.middleware.js';
 import { AuthMiddleware } from './auth/auth.middleware.js';
+import { APP_GUARD } from '@nestjs/core';
+import { RoleGuard } from './role/role.guard.js';
 
 @Module({
   imports: [
@@ -30,7 +32,13 @@ import { AuthMiddleware } from './auth/auth.middleware.js';
     ValidationModule.forRoot(true),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: RoleGuard,
+    },
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
